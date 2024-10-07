@@ -1,8 +1,9 @@
 pipeline {
     agent {
         docker {
-            image 'node:18' // Official Node.js Docker image
+            image 'docker:20.10.7' // Official Docker image with Docker CLI
             args '-v /var/run/docker.sock:/var/run/docker.sock' // If Docker commands are needed
+            //image 'node:18' // Official Node.js Docker image
             // args '-u root' // Run as root to ensure permissions (if necessary)
         }
     }  
@@ -23,6 +24,19 @@ pipeline {
             }
         }
 
+        stage('Setup Node.js') {
+            steps {
+                sh '''
+                    apt-get update
+                    apt-get install -y curl
+                    curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+                    apt-get install -y nodejs
+                    node -v
+                    npm -v
+                '''
+            }
+        }
+
         stage('Build') {
             steps {
                 sh 'mkdir -p $NPM_CONFIG_CACHE'    // Ensure the cache directory exists
@@ -34,8 +48,8 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    dockerImage = sh(script: '/bin/docker build -t ${ECR_REPO}:${IMAGE_TAG} .', returnStdout: true)
-                    //dockerImage = docker.build("${ECR_REPO}:${IMAGE_TAG}")
+                    dockerImage = docker.build("${ECR_REPO}:${IMAGE_TAG}")
+                    //dockerImage = sh(script: '/bin/docker build -t ${ECR_REPO}:${IMAGE_TAG} .', returnStdout: true)
                 }
             }
         }
