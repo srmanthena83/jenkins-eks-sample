@@ -1,9 +1,10 @@
 pipeline {
-    agent any
-
-    tools {
-        nodejs 'NodeJS 18' // Name as configured in Global Tool Configuration
-    }    
+    agent {
+        docker {
+            image 'node:18' // Official Node.js Docker image
+            args '-v /var/run/docker.sock:/var/run/docker.sock' // If Docker commands are needed
+        }
+    }  
 
     environment {
         // Define environment variables
