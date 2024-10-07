@@ -2,9 +2,9 @@ pipeline {
     agent {
         docker {
             image 'node:18' // Official Node.js Docker image
-            args '-v /var/run/docker.sock:/var/run/docker.sock' // If Docker commands are needed
+            //args '-v /var/run/docker.sock:/var/run/docker.sock' // If Docker commands are needed
             //image 'docker:20.10.7' // Official Docker image with Docker CLI
-            // args '-u root' // Run as root to ensure permissions (if necessary)
+            args '-u root' // Run as root to ensure permissions (if necessary)
         }
     }  
 
