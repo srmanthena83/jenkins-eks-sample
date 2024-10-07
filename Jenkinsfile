@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'NodeJS 18' // Name as configured in Global Tool Configuration
+    }    
+
     environment {
         // Define environment variables
         AWS_REGION = 'us-east-1'
