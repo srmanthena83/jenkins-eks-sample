@@ -47,16 +47,16 @@ pipeline {
             }
         }
 
-        stage('Deploy to EKS') {
-            steps {
-                withAWS(region: "${AWS_REGION}", credentials: 'aws-credentials') {
-                    sh '''
-                        kubectl set image deployment/jenkins-eks-sample-deployment jenkins-eks-sample=${ECR_REPO}:${IMAGE_TAG} --record
-                        kubectl rollout status deployment/jenkins-eks-sample-deployment
-                    '''
-                }
-            }
-        }
+        #stage('Deploy to EKS') {
+            #steps {
+                #withAWS(region: "${AWS_REGION}", credentials: 'aws-credentials') {
+                    #sh '''
+                        #kubectl set image deployment/jenkins-eks-sample-deployment jenkins-eks-sample=${ECR_REPO}:${IMAGE_TAG} --record
+                        #kubectl rollout status deployment/jenkins-eks-sample-deployment
+                    #'''
+                #}
+            #}
+        #}
     }
 
     post {
